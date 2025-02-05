@@ -35,16 +35,8 @@ cidrs_oracle=$(wget -qO- https://docs.cloud.oracle.com/en-us/iaas/tools/public_i
 echo -n "Oracle Cloud CIDRs: "
 echo "$cidrs_oracle" | wc -l
 
-cidrs_ibm=$(wget -qO- https://raw.githubusercontent.com/IBM-Cloud/ip-ranges/master/ip-ranges.json | grep -o "$CIDR_REGEX" | sort -V)
-echo -n "IBM Cloud CIDRs: "
-echo "$cidrs_ibm" | wc -l
 
-cidrs_alibaba=$(wget -qO- https://raw.githubusercontent.com/alibaba-cloud/ip-ranges/master/ip-ranges.json | grep -o "$CIDR_REGEX" | sort -V)
-echo -n "Alibaba Cloud CIDRs: "
-echo "$cidrs_alibaba" | wc -l
-
-
-echo -e "$cidrs_aws\n$cidrs_cloudflare\n$cidrs_gcp\n$cidrs_azure\n$cidrs_linode\n$cidrs_digitalocean\n$cidrs_oracle\n$cidrs_ibm\n$cidrs_alibaba\n" | uniq > datacenters.txt
+echo -e "$cidrs_aws\n$cidrs_cloudflare\n$cidrs_gcp\n$cidrs_azure\n$cidrs_linode\n$cidrs_digitalocean\n$cidrs_oracle\n" | uniq > datacenters.txt
 
 get_csv_of_low_and_high_ip_from_cidr_list()
 {
@@ -67,7 +59,4 @@ get_csv_of_low_and_high_ip_from_cidr_list "$cidrs_azure" "Azure" | uniq >> datac
 get_csv_of_low_and_high_ip_from_cidr_list "$cidrs_linode" "Linode" | uniq >> datacenters.csv
 get_csv_of_low_and_high_ip_from_cidr_list "$cidrs_digitalocean" "DigitalOcean" | uniq >> datacenters.csv
 get_csv_of_low_and_high_ip_from_cidr_list "$cidrs_oracle" "Oracle Cloud" | uniq >> datacenters.csv
-get_csv_of_low_and_high_ip_from_cidr_list "$cidrs_ibm" "IBM Cloud" | uniq >> datacenters.csv
-get_csv_of_low_and_high_ip_from_cidr_list "$cidrs_alibaba" "Alibaba Cloud" | uniq >> datacenters.csv
-
 echo "Success!"
