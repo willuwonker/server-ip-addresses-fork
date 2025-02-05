@@ -1,8 +1,8 @@
-# Server IP address ranges / CIDR blocks
+# IP address ranges / CIDR blocks
 
-Hourly updated list of IP addresses / CIDR blocks used by data centers, cloud service providers, servers, etc.
+Hourly updated list of IP addresses / CIDR blocks used by data centers, cloud service providers, servers, etc. (yes, theres also just countries)
 
-Essentially the IP addresses where an average web user should not be accessing from. Useful for detecting or limiting the traffic from servers.
+Essentially the IP addresses where an average web user should not be accessing from. Useful for detecting, limiting, blocking the traffic from servers/countries.
 
 ## Usage
 
@@ -12,9 +12,10 @@ There are two formats of the data available which are updated daily:
 
 2. The text format which contain only the CIDR block: https://raw.githubusercontent.com/willuwonker/server-ip-addresses-fork/master/data/datacenters.txt
 
+[ OTHER STUFF IN DATA_COUNTRIES FOLDER, DATA/DATA_COUNTRIES ]
 ## Currently included
 
-The list currenlty includes the following cloud infrastructure providers: AWS, Azure, GCP and CloudFlare.
+The list currenlty includes the following cloud infrastructure providers: AWS, Azure, GCP and CloudFlare, Linode, digitalocean
 
 ## Contributions are welcomed
 
