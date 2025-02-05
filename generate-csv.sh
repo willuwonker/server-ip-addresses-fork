@@ -5,6 +5,7 @@ set -euo pipefail
 CIDR_REGEX='[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\/[0-9]\{1,\}'
 IP_ADDRESS_REGEX='([0-9]{1,3}[\.]){3}[0-9]{1,3}'
 
+mkdir -p /data
 cd /data
 
 cidrs_aws=$(wget -qO- https://ip-ranges.amazonaws.com/ip-ranges.json | grep -o "$CIDR_REGEX" | sort -V)
@@ -44,7 +45,6 @@ get_csv_of_low_and_high_ip_from_cidr_list()
         echo "\"$cidr\",\"$hostmin\",\"$hostmax\",\"$vendor\""
     done
 }
-
 echo '"cidr","hostmin","hostmax","vendor"' > datacenters.csv
 get_csv_of_low_and_high_ip_from_cidr_list "$cidrs_aws" "AWS" | uniq >> datacenters.csv
 get_csv_of_low_and_high_ip_from_cidr_list "$cidrs_cloudflare" "CloudFlare" | uniq  >> datacenters.csv
@@ -52,5 +52,21 @@ get_csv_of_low_and_high_ip_from_cidr_list "$cidrs_gcp" "GCP" | uniq >> datacente
 get_csv_of_low_and_high_ip_from_cidr_list "$cidrs_azure" "Azure" | uniq >> datacenters.csv
 get_csv_of_low_and_high_ip_from_cidr_list "$cidrs_linode" "Linode" | uniq >> datacenters.csv
 get_csv_of_low_and_high_ip_from_cidr_list "$cidrs_digitalocean" "DigitalOcean" | uniq >> datacenters.csv
+
+mkdir -p /data_country
+cd /data_country
+
+wget -nv https://ftp.apnic.net/stats/apnic/delegated-apnic-latest -O delegated-apnic-latest.txt
+wget -nv https://ftp.arin.net/pub/stats/arin/delegated-arin-extended-latest -O delegated-arin-extended-latest.txt
+wget -nv https://ftp.ripe.net/ripe/stats/delegated-ripencc-latest -O delegated-ripencc-latest.txt
+wget -nv https://ftp.afrinic.net/pub/stats/afrinic/delegated-afrinic-latest -O delegated-afrinic-latest.txt
+wget -nv https://ftp.lacnic.net/pub/stats/lacnic/delegated-lacnic-latest -O delegated-lacnic-latest.txt
+
+awk -F '|' '{ print $2 }' delegated-*-latest.txt | sort | uniq | grep -E '[A-Z]{2}' > country_code.txt
+
+while read cc; do
+    grep "$cc|ipv4|" delegated-*-latest.txt | awk -F '|' '{ printf("%s/%d\n", $4, 32-log($5)/log(2)) }' > ${cc}_IPv4.txt
+    grep "$cc|ipv6|" delegated-*-latest.txt | awk -F '|' '{ printf("%s/%d\n", $4, $5) }' > ${cc}_IPv6.txt
+done < country_code.txt
 
 echo "Success!"
