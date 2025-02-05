@@ -1,6 +1,6 @@
 # Server IP address ranges / CIDR blocks
 
-image::https://github.com/jhassine/datacenters/workflows/Update%20CIDRs/badge.svg?branch=master[Status]
+image::https://github.com/willuwonker/datacenters/workflows/Update%20CIDRs/badge.svg?branch=master[Status]
 
 Daily updated list of IP addresses / CIDR blocks used by data centers, cloud service providers, servers, etc.
 
