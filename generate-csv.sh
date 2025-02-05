@@ -23,7 +23,15 @@ cidrs_azure=$(wget -qO- $(wget -qO- -U Mozilla https://www.microsoft.com/en-us/d
 echo -n "Azure CIDRs: "
 echo "$cidrs_azure" | wc -l
 
-echo -e "$cidrs_aws\n$cidrs_cloudflare\n$cidrs_gcp\n$cidrs_azure\n" | uniq > datacenters.txt
+cidrs_linode=$(wget -qO- https://geoip.linode.com/ | grep -o "$CIDR_REGEX" | sort -V)
+echo -n "Linode CIDRs: "
+echo "$cidrs_linode" | wc -l
+
+cidrs_digitalocean=$(wget -qO- https://digitalocean.com/geo/google.csv | grep -o "$CIDR_REGEX" | sort -V)
+echo -n "DigitalOcean CIDRs: "
+echo "$cidrs_digitalocean" | wc -l
+
+echo -e "$cidrs_aws\n$cidrs_cloudflare\n$cidrs_gcp\n$cidrs_azure\n$cidrs_linode\n$cidrs_digitalocean\n" | uniq > datacenters.txt
 
 get_csv_of_low_and_high_ip_from_cidr_list()
 {
@@ -42,5 +50,7 @@ get_csv_of_low_and_high_ip_from_cidr_list "$cidrs_aws" "AWS" | uniq >> datacente
 get_csv_of_low_and_high_ip_from_cidr_list "$cidrs_cloudflare" "CloudFlare" | uniq  >> datacenters.csv
 get_csv_of_low_and_high_ip_from_cidr_list "$cidrs_gcp" "GCP" | uniq >> datacenters.csv
 get_csv_of_low_and_high_ip_from_cidr_list "$cidrs_azure" "Azure" | uniq >> datacenters.csv
+get_csv_of_low_and_high_ip_from_cidr_list "$cidrs_linode" "Linode" | uniq >> datacenters.csv
+get_csv_of_low_and_high_ip_from_cidr_list "$cidrs_digitalocean" "DigitalOcean" | uniq >> datacenters.csv
 
 echo "Success!"
