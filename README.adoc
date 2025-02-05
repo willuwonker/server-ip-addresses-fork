@@ -1,8 +1,6 @@
 # Server IP address ranges / CIDR blocks
 
-image::https://github.com/willuwonker/datacenters/workflows/Update%20CIDRs/badge.svg?branch=master[Status]
-
-Daily updated list of IP addresses / CIDR blocks used by data centers, cloud service providers, servers, etc.
+Hourly updated list of IP addresses / CIDR blocks used by data centers, cloud service providers, servers, etc.
 
 Essentially the IP addresses where an average web user should not be accessing from. Useful for detecting or limiting the traffic from servers.
 
