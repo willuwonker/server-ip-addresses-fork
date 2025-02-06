@@ -1,8 +1,8 @@
 # IP address ranges / CIDR blocks
 
-Hourly updated list of IP addresses / CIDR blocks used by data centers, cloud service providers, servers, etc. (yes, theres also just countries)
+Hourly updated list of IP addresses / CIDR blocks used by data centers, cloud service providers, servers, etc.
 
-Essentially the IP addresses where an average web user should not be accessing from. Useful for detecting, limiting, blocking the traffic from servers/countries.
+Essentially the IP addresses where an average web user should not be accessing from. Useful for detecting, limiting, blocking the traffic from servers.
 
 ## Usage
 
